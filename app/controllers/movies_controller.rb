@@ -7,7 +7,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @all_ratings = ['G', 'PG', 'PG-13', 'R']
+    @all_ratings = Movie.ratings
     if params[:sorted] == 'title'
       @movies = Movie.all(:order => 'title')
       @titleHighlight="hilite"
