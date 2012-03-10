@@ -1,13 +1,28 @@
 class MoviesController < ApplicationController
 
+  def my_logger
+    @@my_logger = Logger.new("#{Rails.root}/log/my.log")
+  end
+  
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
   end
 
-  def index
+  def initialiseRatings
     @all_ratings = Movie.ratings
+    @ratings = params[:ratings]
+    if (!@ratings.nil?)
+      my_logger.info "ratings are:"
+      @ratings.each_key do |key|
+        my_logger.info key   
+      end
+    end   
+  end
+  
+  def index
+    initialiseRatings       
     if params[:sorted] == 'title'
       @movies = Movie.all(:order => 'title')
       @titleHighlight="hilite"
