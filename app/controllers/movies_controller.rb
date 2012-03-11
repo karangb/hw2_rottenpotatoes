@@ -12,11 +12,17 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.ratings
+    if (params[:ratings].is_a? Hash)
+      params[:ratings] = params[:ratings].keys
+    end
     redirectNeeded = false
     if params.has_key?(:ratings)
-      session[:ratings] = params[:ratings].keys
+      session[:ratings] = params[:ratings]
     elsif params[:commit] == "Refresh" || !(session.has_key? :ratings) 
-      session[:ratings] = Movie.ratings
+        session[:ratings] = Movie.ratings
+    else
+      params[:ratings] = session[:ratings]
+      redirectNeeded = true
     end
     
     if (params.has_key?(:sorted))
@@ -27,10 +33,10 @@ class MoviesController < ApplicationController
     end
     
     if (redirectNeeded)
-    redirect_to movies_path(:sorted => params[:sorted])
+    redirect_to movies_path(:sorted => params[:sorted], :ratings => params[:ratings])
     end
 
-    @movies = Movie.all(:order => params[:sorted], :conditions => ["rating IN (?)", session[:ratings]])
+    @movies = Movie.all(:order => params[:sorted], :conditions => ["rating IN (?)", params[:ratings]])
   end
 
   def new

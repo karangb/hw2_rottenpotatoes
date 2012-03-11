@@ -6,7 +6,7 @@ module MoviesHelper
   
   def includeRating(rating)
     if (session.has_key? :ratings)
-      session[:ratings].include? rating
+      params[:ratings].include? rating
     end
   end
   
