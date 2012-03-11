@@ -13,12 +13,15 @@ class MoviesController < ApplicationController
   def initialiseRatings
     @all_ratings = Movie.ratings
     @ratings = params[:ratings]
+    
     if (!@ratings.nil?)
       session[:ratings] = @ratings.keys
       my_logger.info "ratings are:"
       @ratings.each_key do |key|
         my_logger.info key   
       end
+    else
+      session[:ratings] = @all_ratings
     end   
   end
   
