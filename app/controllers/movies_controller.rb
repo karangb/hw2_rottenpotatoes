@@ -24,11 +24,7 @@ class MoviesController < ApplicationController
   def index
     initialiseRatings
     @sortedBy = params[:sorted]
-    if !@sortedBy.nil?
-      @movies = Movie.all(:order => @sortedBy)
-    else
-      @movies = Movie.all
-    end
+    @movies = Movie.all(:order => @sortedBy)
   end
 
   def new
