@@ -12,12 +12,11 @@ class MoviesController < ApplicationController
 
   def initialiseRatings
     @all_ratings = Movie.ratings
-    @ratings = params[:ratings]
     
-    if (!@ratings.nil?)
-      session[:ratings] = @ratings.keys
+    if (!params[:ratings].nil?)
+      session[:ratings] = params[:ratings].keys
       my_logger.info "ratings are:"
-      @ratings.each_key do |key|
+      params[:ratings].each_key do |key|
         my_logger.info key   
       end
     elsif params[:commit] == 'Refresh'
