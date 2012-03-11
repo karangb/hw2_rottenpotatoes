@@ -20,9 +20,9 @@ class MoviesController < ApplicationController
     end
     
     if (params.has_key?(:sorted))
-      session['sortedBy'] = params[:sorted]
+      session[:sorted] = params[:sorted]
     else
-      params[:sorted] = session['sortedBy']
+      params[:sorted] = session[:sorted]
       redirectNeeded = true
     end
     
