@@ -22,7 +22,7 @@ class MoviesController < ApplicationController
         params[:ratings] = Movie.ratings
     else
       params[:ratings] = session[:ratings]
-      redirectNeeded = true
+      redirectNeeded = true unless session[:ratings].nil?
     end
     
     if (params.has_key?(:sorted))
