@@ -26,17 +26,9 @@ class MoviesController < ApplicationController
     @sortedBy = params[:sorted]
     if !@sortedBy.nil?
       @movies = Movie.all(:order => @sortedBy)
-    end
-    if params[:sorted] == 'title'
-      @titleHighlight="hilite"
-      @releaseHighlight=""
-    elsif params[:sorted] == 'release_date'
-      @releaseHighlight="hilite"
-      @titleHighlight=""
     else
-      @movies = Movie.all()
+      @movies = Movie.all
     end
-
   end
 
   def new
