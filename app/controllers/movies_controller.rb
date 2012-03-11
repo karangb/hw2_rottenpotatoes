@@ -10,33 +10,20 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
-  def initialiseRatings
+  def index
     @all_ratings = Movie.ratings
     
-    if (!params[:ratings].nil?)
+    if params.has_key?(:ratings)
       session[:ratings] = params[:ratings].keys
-      my_logger.info "ratings are:"
-      params[:ratings].each_key do |key|
-        my_logger.info key   
-      end
-    elsif params[:commit] == 'Refresh'
-      session[:ratings] = @all_ratings
-    end   
-  end
-  
-  def index
-    initialiseRatings
-    if (params.has_key? :sorted)
+    elsif params[:commit] == "Refresh" || !(session.has_key? :ratings) 
+      session[:ratings] = Movie.ratings
+    end
+    
+    if (params.has_key?(:sorted))
       session['sortedBy'] = params[:sorted]
     end
-    if (params.has_key?(:ratings))
-      ratingsSelected = params[:ratings].keys
-    elsif (session.has_key?(:ratings))
-      ratingsSelected = session[:ratings]
-    else
-      ratingsSelected = Movie.ratings
-    end
-    @movies = Movie.all(:order => session['sortedBy'], :conditions => ["rating IN (?)", ratingsSelected])
+    
+    @movies = Movie.all(:order => session['sortedBy'], :conditions => ["rating IN (?)", session[:ratings]])
   end
 
   def new
