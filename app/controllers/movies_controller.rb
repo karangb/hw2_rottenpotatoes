@@ -20,7 +20,7 @@ class MoviesController < ApplicationController
       @ratings.each_key do |key|
         my_logger.info key   
       end
-    else
+    elsif params[:commit] == 'Refresh'
       session[:ratings] = @all_ratings
     end   
   end
