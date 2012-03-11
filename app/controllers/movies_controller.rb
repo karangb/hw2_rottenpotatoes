@@ -23,8 +23,9 @@ class MoviesController < ApplicationController
   
   def index
     initialiseRatings
-    if !params[:sorted].nil?
-      @movies = Movie.all(:order => params[:sorted])
+    @sortedBy = params[:sorted]
+    if !@sortedBy.nil?
+      @movies = Movie.all(:order => @sortedBy)
     end
     if params[:sorted] == 'title'
       @titleHighlight="hilite"

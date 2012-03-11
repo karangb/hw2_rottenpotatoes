@@ -7,4 +7,10 @@ module MoviesHelper
   def includeRating(rating)
     @ratings.include?(rating) unless @ratings.nil?
   end
+  
+  def sortHighlight(header)
+    if header == @sortedBy
+      'hilite'
+    end
+  end
 end
