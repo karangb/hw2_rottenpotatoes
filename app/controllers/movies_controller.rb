@@ -27,7 +27,9 @@ class MoviesController < ApplicationController
   
   def index
     initialiseRatings
-    @sortedBy = params[:sorted]
+    if (params.has_key? :sorted)
+      session['sortedBy'] = params[:sorted]
+    end
     if (params.has_key?(:ratings))
       ratingsSelected = params[:ratings].keys
     elsif (session.has_key?(:ratings))
@@ -35,7 +37,7 @@ class MoviesController < ApplicationController
     else
       ratingsSelected = Movie.ratings
     end
-    @movies = Movie.all(:order => @sortedBy, :conditions => ["rating IN (?)", ratingsSelected])
+    @movies = Movie.all(:order => session['sortedBy'], :conditions => ["rating IN (?)", ratingsSelected])
   end
 
   def new

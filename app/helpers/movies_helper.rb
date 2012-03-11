@@ -11,7 +11,7 @@ module MoviesHelper
   end
   
   def sortHighlight(header)
-    if header == @sortedBy
+    if header == session['sortedBy']
       'hilite'
     end
   end
