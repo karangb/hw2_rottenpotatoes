@@ -33,7 +33,7 @@ class MoviesController < ApplicationController
     end
     
     if (redirectNeeded)
-    redirect_to movies_path(:sorted => params[:sorted], :ratings => params[:ratings])
+    redirect_to movies_path(params)
     end
 
     @movies = Movie.all(:order => params[:sorted], :conditions => ["rating IN (?)", params[:ratings]])
