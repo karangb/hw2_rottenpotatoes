@@ -5,7 +5,9 @@ module MoviesHelper
   end
   
   def includeRating(rating)
-    @ratings.include?(rating) unless @ratings.nil?
+    if (session.has_key? :ratings)
+      session[:ratings].include? rating
+    end
   end
   
   def sortHighlight(header)

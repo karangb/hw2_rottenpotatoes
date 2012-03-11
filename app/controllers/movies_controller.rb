@@ -14,6 +14,7 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.ratings
     @ratings = params[:ratings]
     if (!@ratings.nil?)
+      session[:ratings] = @ratings.keys
       my_logger.info "ratings are:"
       @ratings.each_key do |key|
         my_logger.info key   
@@ -24,7 +25,14 @@ class MoviesController < ApplicationController
   def index
     initialiseRatings
     @sortedBy = params[:sorted]
-    @movies = Movie.all(:order => @sortedBy)
+    if (params.has_key?(:ratings))
+      ratingsSelected = params[:ratings].keys
+    elsif (session.has_key?(:ratings))
+      ratingsSelected = session[:ratings]
+    else
+      ratingsSelected = Movie.ratings
+    end
+    @movies = Movie.all(:order => @sortedBy, :conditions => ["rating IN (?)", ratingsSelected])
   end
 
   def new
