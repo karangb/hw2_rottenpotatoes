@@ -19,7 +19,7 @@ class MoviesController < ApplicationController
     if params.has_key?(:ratings)
       session[:ratings] = params[:ratings]
     elsif params[:commit] == "Refresh" || !(session.has_key? :ratings) 
-        session[:ratings] = Movie.ratings
+        params[:ratings] = Movie.ratings
     else
       params[:ratings] = session[:ratings]
       redirectNeeded = true
