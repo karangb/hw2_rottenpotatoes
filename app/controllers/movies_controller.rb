@@ -12,7 +12,6 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.ratings
-    
     if params.has_key?(:ratings)
       session[:ratings] = params[:ratings].keys
     elsif params[:commit] == "Refresh" || !(session.has_key? :ratings) 
@@ -21,9 +20,11 @@ class MoviesController < ApplicationController
     
     if (params.has_key?(:sorted))
       session['sortedBy'] = params[:sorted]
+    else
+      params[:sorted] = session['sortedBy']
     end
     
-    @movies = Movie.all(:order => session['sortedBy'], :conditions => ["rating IN (?)", session[:ratings]])
+    @movies = Movie.all(:order => params[:sorted], :conditions => ["rating IN (?)", session[:ratings]])
   end
 
   def new
